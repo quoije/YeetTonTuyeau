@@ -16,12 +16,48 @@ namespace YeetTonTuyeau
     public partial class YeetTonTuyeau : Form
     {
         public int pceTimeValue = 0;
+        public int fe = 0;
         public YeetTonTuyeau()
         {
             InitializeComponent();
-            FFmpeg.GetLatestVersion();
             memeImg.Visible = false;
             stopBtn.Enabled = false;
+
+            ffmpegCheck();
+            ffmpegDCheck();
+            ffmpegCheckTmr.Start();
+
+            if (fe == 4)
+            {
+                string message = "ffmpeg est manquant, voulez-vous le télécharger ?";
+                string caption = "sérieux?";
+
+                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                DialogResult resultat;
+
+                resultat = MessageBox.Show(message, caption, buttons);
+
+                if (resultat == System.Windows.Forms.DialogResult.Yes)
+                {
+                    FFmpeg.GetLatestVersion();
+                }
+
+            }
+            else if (fe == 2 || fe == 3)
+            {
+                string message = "ffmpeg ou ffprobe est manquant, voulez-vous le télécharger ?";
+                string caption = "sérieux?";
+
+                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                DialogResult resultat;
+
+                resultat = MessageBox.Show(message, caption, buttons);
+
+                if (resultat == System.Windows.Forms.DialogResult.Yes)
+                {
+                    FFmpeg.GetLatestVersion();
+                }
+            }
         }
 
         public string AddQuotesIfRequired(string path)
@@ -127,9 +163,9 @@ namespace YeetTonTuyeau
         private void convertProcess()
         {
             char comm = '"';
+            string filename = Path.GetFileNameWithoutExtension(mp3txt.Text);
             convertBtn.Enabled = false;
             stopBtn.Enabled = true;
-            string filename = Path.GetFileNameWithoutExtension(mp3txt.Text);
             Conversion convert = new Conversion();
             convert.AddParameter(@"-r 1 -loop 1 -i " + comm + imgtxt.Text + comm + " -i " + comm + mp3txt.Text + comm + " -acodec copy -r 1 -shortest -vf scale=1280:-1 " + comm + outputtxt.Text + "\\" + filename + "_(video).flv" + comm);
             convert.OnProgress += Convert_OnProgress;
@@ -172,8 +208,60 @@ namespace YeetTonTuyeau
                 this.Invoke(new Action(() => progressBar1.Value = percent));
                 this.Invoke(new Action(() => convertBtn.Enabled = true));
                 this.Invoke(new Action(() => stopBtn.Enabled = false));
+
+                Process.Start(@outputtxt.Text);
             }
 
+        }
+
+        private void ffmpegCheck()
+        {
+            if (File.Exists("ffmpeg.exe") && File.Exists("ffprobe.exe"))
+            {
+                fe = 1;
+            }
+            else if (File.Exists("ffmpeg.exe"))
+            {
+                fe = 2;
+            }
+            else if (File.Exists("ffprobe.exe"))
+            {
+                fe = 3;
+            }
+            else
+                fe = 4;
+        }
+
+
+        private void ffmpegDCheck()
+        {
+            switch (fe)
+            {
+                case 1:
+                    ffm_box.Checked = true;
+                    ffp_box.Checked = true;
+                    ffmpeg_label.ForeColor = Color.Green;
+                    ffprobe_label.ForeColor = Color.Green;
+                    break;
+                case 2:
+                    ffm_box.Checked = true;
+                    ffp_box.Checked = false;
+                    ffmpeg_label.ForeColor = Color.Green;
+                    ffprobe_label.ForeColor = Color.Red;
+                    break;
+                case 3:
+                    ffm_box.Checked = false;
+                    ffp_box.Checked = true;
+                    ffmpeg_label.ForeColor = Color.Red;
+                    ffprobe_label.ForeColor = Color.Green;
+                    break;
+                case 4:
+                    ffm_box.Checked = false;
+                    ffp_box.Checked = false;
+                    ffmpeg_label.ForeColor = Color.Red;
+                    ffprobe_label.ForeColor = Color.Red;
+                    break;
+            }
         }
 
         private void iightImma()
@@ -255,7 +343,12 @@ namespace YeetTonTuyeau
             progressBar1.Value = 0;
             string filename = Path.GetFileNameWithoutExtension(mp3txt.Text);
             infoProgress.Text = filename;
+        }
 
+        private void FfmpegCheckTmr_Tick(object sender, EventArgs e)
+        {
+            ffmpegCheck();
+            ffmpegDCheck();
         }
     }
 
