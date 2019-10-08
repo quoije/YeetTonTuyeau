@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(YeetTonTuyeau));
             this.label1 = new System.Windows.Forms.Label();
             this.titreApp = new System.Windows.Forms.Label();
             this.quitApp = new System.Windows.Forms.Button();
@@ -48,6 +49,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ffmpeg_label = new System.Windows.Forms.Label();
+            this.ffprobe_label = new System.Windows.Forms.Label();
+            this.ffm_box = new System.Windows.Forms.CheckBox();
+            this.ffp_box = new System.Windows.Forms.CheckBox();
+            this.ffmpegCheckTmr = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.memeImg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -227,12 +233,60 @@
             this.aboutToolStripMenuItem.Text = "À propos";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
+            // ffmpeg_label
+            // 
+            this.ffmpeg_label.AutoSize = true;
+            this.ffmpeg_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ffmpeg_label.Location = new System.Drawing.Point(241, 5);
+            this.ffmpeg_label.Name = "ffmpeg_label";
+            this.ffmpeg_label.Size = new System.Drawing.Size(49, 16);
+            this.ffmpeg_label.TabIndex = 36;
+            this.ffmpeg_label.Text = "ffmpeg";
+            // 
+            // ffprobe_label
+            // 
+            this.ffprobe_label.AutoSize = true;
+            this.ffprobe_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ffprobe_label.Location = new System.Drawing.Point(313, 5);
+            this.ffprobe_label.Name = "ffprobe_label";
+            this.ffprobe_label.Size = new System.Drawing.Size(50, 16);
+            this.ffprobe_label.TabIndex = 37;
+            this.ffprobe_label.Text = "ffprobe";
+            // 
+            // ffm_box
+            // 
+            this.ffm_box.AutoSize = true;
+            this.ffm_box.Enabled = false;
+            this.ffm_box.Location = new System.Drawing.Point(220, 7);
+            this.ffm_box.Name = "ffm_box";
+            this.ffm_box.Size = new System.Drawing.Size(15, 14);
+            this.ffm_box.TabIndex = 38;
+            this.ffm_box.UseVisualStyleBackColor = true;
+            // 
+            // ffp_box
+            // 
+            this.ffp_box.AutoSize = true;
+            this.ffp_box.Enabled = false;
+            this.ffp_box.Location = new System.Drawing.Point(292, 7);
+            this.ffp_box.Name = "ffp_box";
+            this.ffp_box.Size = new System.Drawing.Size(15, 14);
+            this.ffp_box.TabIndex = 39;
+            this.ffp_box.UseVisualStyleBackColor = true;
+            // 
+            // ffmpegCheckTmr
+            // 
+            this.ffmpegCheckTmr.Tick += new System.EventHandler(this.FfmpegCheckTmr_Tick);
+            // 
             // YeetTonTuyeau
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(375, 385);
             this.Controls.Add(this.memeImg);
+            this.Controls.Add(this.ffp_box);
+            this.Controls.Add(this.ffm_box);
+            this.Controls.Add(this.ffprobe_label);
+            this.Controls.Add(this.ffmpeg_label);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label1);
@@ -250,10 +304,12 @@
             this.Controls.Add(this.mp3txt);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "YeetTonTuyeau";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "YeetTonTuyeau V0.1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.YeetTonTuyeau_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.memeImg)).EndInit();
@@ -286,6 +342,11 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.Label ffmpeg_label;
+        private System.Windows.Forms.Label ffprobe_label;
+        private System.Windows.Forms.CheckBox ffm_box;
+        private System.Windows.Forms.CheckBox ffp_box;
+        private System.Windows.Forms.Timer ffmpegCheckTmr;
     }
 }
 
